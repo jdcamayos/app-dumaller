@@ -121,11 +121,9 @@ export default function SidebarItems() {
 	const { pathname, push } = useRouter()
 
 	const handleClick = (item: Item) => {
-		if (!pathname.includes(item.href)) {
-			push(item.href)
-		}
+		push(item.href)
 	}
-
+	
 	return (
 		<>
 			{sidebarItems.map(item => (
@@ -133,14 +131,14 @@ export default function SidebarItems() {
 					key={item.id}
 					onClick={() => handleClick(item)}
 					sx={{
-						...(pathname.includes(item.href) && {
+						...(pathname === item.href && {
 							color: 'white',
 							bgcolor: 'primary.main',
 							'&:hover': { color: 'primary.main' },
 						}),
 					}}
 				>
-					<ListItemIcon sx={{ ...(pathname.includes(item.href) && { color: 'inherit' }) }}>{item.icon}</ListItemIcon>
+					<ListItemIcon sx={{ ...(pathname === item.href && { color: 'inherit' }) }}>{item.icon}</ListItemIcon>
 					<ListItemText primary={item.label} />
 				</ListItemButton>
 			))}

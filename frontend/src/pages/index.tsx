@@ -1,7 +1,6 @@
 import { Box, Grid, Paper, Typography } from '@mui/material'
 import Head from 'next/head'
 import Image from 'next/image'
-import Dashboard from '../components/layout/Dashboard'
 
 export default function Home() {
 	return (
@@ -11,46 +10,38 @@ export default function Home() {
 				<meta name='description' content='Ecommerce platform' />
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
-
-			{/* <Box sx={{ display: 'grid', placeContent: 'center' }}>
-				<Typography>Welcome to Dumaller</Typography>
-			</Box> */}
-			<Dashboard>
-				<Grid container spacing={3}>
-					{/* Chart */}
-					<Grid item xs={12} md={8} lg={9}>
-						<Paper
-							sx={{
-								p: 2,
-								display: 'flex',
-								flexDirection: 'column',
-								height: 240,
-							}}
-						>
-							{/* <Chart /> */}
-						</Paper>
-					</Grid>
-					{/* Recent Deposits */}
-					<Grid item xs={12} md={4} lg={3}>
-						<Paper
-							sx={{
-								p: 2,
-								display: 'flex',
-								flexDirection: 'column',
-								height: 240,
-							}}
-						>
-							{/* <Deposits /> */}
-						</Paper>
-					</Grid>
-					{/* Recent Orders */}
-					<Grid item xs={12}>
-						<Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-							{/* <Orders /> */}
-						</Paper>
-					</Grid>
+			<Grid container spacing={3}>
+				{/* Chart */}
+				<Grid item xs={12} md={8} lg={9}>
+					<Paper
+						sx={{
+							p: 2,
+							display: 'flex',
+							flexDirection: 'column',
+							height: 240,
+						}}
+					>
+						{/* <Chart /> */}
+					</Paper>
 				</Grid>
-			</Dashboard>
+				{/* Recent Deposits */}
+				<Grid item xs={12} md={4} lg={3}>
+					<Paper
+						sx={{
+							p: 2,
+							display: 'flex',
+							flexDirection: 'column',
+							height: 240,
+						}}
+					>
+						{/* <Deposits /> */}
+					</Paper>
+				</Grid>
+				{/* Recent Orders */}
+				<Grid item xs={12}>
+					<Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>{/* <Orders /> */}</Paper>
+				</Grid>
+			</Grid>
 		</>
 	)
 }

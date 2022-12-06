@@ -36,5 +36,5 @@ export default function AppProvider(props: RFC) {
 
 	const value: AppContextType = { state }
 
-	return <AppContext.Provider value={value}>AppContext</AppContext.Provider>
+	return <AppContext.Provider value={value}>{props.children}</AppContext.Provider>
 }
