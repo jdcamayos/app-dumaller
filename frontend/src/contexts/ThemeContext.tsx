@@ -3,7 +3,7 @@ import { createTheme, ThemeProvider as MUIThemeProvider } from '@mui/material/st
 import CssBaseline from '@mui/material/CssBaseline'
 import { RFC } from '../types'
 
-const ColorModeContext = React.createContext({ toggleColorMode: () => {} })
+export const ColorModeContext = React.createContext({ toggleColorMode: () => {} })
 
 interface Props extends RFC {}
 

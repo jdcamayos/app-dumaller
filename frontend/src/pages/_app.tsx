@@ -1,16 +1,22 @@
-import type { AppProps } from 'next/app'
-import Layout from '../components/layout/Layout'
 import AppProvider from '../contexts/AppContext'
+import AuthLoading from '../components/layout/AuthLoading'
+import AuthProvider from '../contexts/AuthContext'
+import Layout from '../components/layout/Layout'
 import ThemeProvider from '../contexts/ThemeContext'
+import type { AppProps } from 'next/app'
 
 export default function App({ Component, pageProps }: AppProps) {
 	return (
 		<ThemeProvider>
-			<AppProvider>
-				<Layout>
-					<Component {...pageProps} />
-				</Layout>
-			</AppProvider>
+			<AuthProvider>
+				<AppProvider>
+					<AuthLoading>
+						<Layout>
+							<Component {...pageProps} />
+						</Layout>
+					</AuthLoading>
+				</AppProvider>
+			</AuthProvider>
 		</ThemeProvider>
 	)
 }

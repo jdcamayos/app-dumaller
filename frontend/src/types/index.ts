@@ -1,5 +1,2 @@
-import { ReactNode } from 'react'
-
-export interface RFC {
-	children: ReactNode | ReactNode[]
-}
+export * from './auth'
+export * from './common'
