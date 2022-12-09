@@ -1,57 +1,74 @@
-import { Box, Button, Divider, Grid, Link, TextField } from '@mui/material'
+import { Box, Button, Divider, Grid, Link, TextField, Typography } from '@mui/material'
 import * as React from 'react'
 import RouterLink from 'next/link'
 import useAuth from '../../hooks/useAuth'
-import AuthWithProvider from './AuthWithProvider'
+import InputPassword from './InputPassword'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+
+const loginValidation = Yup.object({
+	email: Yup.string().required('Correo requerido'),
+	password: Yup.string().required('Contraseña es obligatoria'),
+
+})
 
 export default function LoginForm() {
-	const { signIn, signWithProvider } = useAuth()
-	const [credentials, setCredentials] = React.useState({
-		email: '',
-		password: '',
-	})
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault()
-		signIn(credentials)
-	}
+	const { signIn, loading } = useAuth()
 
-	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setCredentials(prev => ({
-			...prev,
-			[event.target.name]: event.target.value,
-		}))
-	}
+	const formik = useFormik({
+		initialValues: {
+			email: '',
+			password: '',
+		},
+		validationSchema: loginValidation,
+		onSubmit: (credentials) => {
+			signIn(credentials)
+		}
+	})
 
 	return (
-		<Box component='form' noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+		<Box component='form' noValidate onSubmit={formik.handleSubmit} sx={{ mt: 3 }}>
 			<Grid container spacing={2}>
 				<Grid item xs={12}>
 					<TextField
-						onChange={handleChange}
+						size='small'
+						onChange={formik.handleChange}
+						value={formik.values.email}
+						error={!!formik.errors.email}
 						required
 						fullWidth
 						label='Correo electronico'
 						name='email'
+						helperText={formik.errors.email}
 						autoComplete='email'
 					/>
 				</Grid>
 				<Grid item xs={12}>
-					<TextField
-						onChange={handleChange}
+					<InputPassword
+						size='small'
+						onChange={formik.handleChange}
+						value={formik.values.password}
+						error={!!formik.errors.password}
 						required
 						fullWidth
 						name='password'
+						helperText={formik.errors.password}
 						label='Contraseña'
-						type='password'
 						autoComplete='new-password'
 					/>
 				</Grid>
+				<Grid item xs={12}>
+					<Link href='/auth/login' component={RouterLink}>
+						<Typography align='right'>
+							Olvidaste tu contraseña?
+						</Typography>
+					</Link>
+				</Grid>
 			</Grid>
 			<Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }}>
-				Iniciar sesión
+				{loading ? 'Cargando' : 'Iniciar sesión'}
 			</Button>
 			<Divider />
-			<AuthWithProvider signWithProvider={signWithProvider} />
 			<Grid container justifyContent='center'>
 				<Grid item>
 					<Link href='/auth/register' component={RouterLink}>{`No tienes una cuenta?, Registrate aqui`}</Link>

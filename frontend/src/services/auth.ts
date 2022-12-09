@@ -7,7 +7,8 @@ import {
 	signOut as signOutFromFb,
 } from 'firebase/auth'
 import { auth } from '../libs/firebase'
-import { Auth, SignInDto, SignUpDto } from '../types'
+import { Auth, SignInDto, SignUpDto, SignUpDtoFromForm } from '../types'
+import { createUser } from './users'
 
 const provider = new GoogleAuthProvider()
 
@@ -16,9 +17,19 @@ export const signWithGoogle = async () => {
 	return result.user
 }
 
-export const signUp = async (signUpDto: SignUpDto) => {
-	const { email, password } = signUpDto
+export const signUp = async (signUpDto: SignUpDtoFromForm) => {
+	const { email, password, name, phone, role, surname } = signUpDto
 	const { user } = await createUserWithEmailAndPassword(auth, email, password)
+	const newUser = {
+		createdAt: new Date().toISOString(),
+		updatedAt: new Date().toISOString(),
+		email,
+		name,
+		phone,
+		role,
+		surname,
+	}
+	await createUser(user.uid, newUser)
 	return user
 }
 

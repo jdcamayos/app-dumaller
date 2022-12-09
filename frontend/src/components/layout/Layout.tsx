@@ -1,9 +1,8 @@
 import { RFC } from '../../types/common'
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Container from '@mui/material/Container'
-import Header from './Header'
 import useAuth from '../../hooks/useAuth'
+import Dashboard from './Dashboard'
 
 export default function Layout(props: RFC) {
 	const { auth } = useAuth()
@@ -18,13 +17,14 @@ export default function Layout(props: RFC) {
 		>
 			{auth ? (
 				<>
-					<Header />
 					<Box>
-						<Container sx={{ minHeight: 'calc(100vh)', py: 2 }}>{props.children}</Container>
+						<Dashboard>
+							{props.children}
+						</Dashboard>
 					</Box>
 				</>
 			) : (
-				<Box sx={{ height: '100vh', width: '100%', display: 'grid', placeContent: 'center' }}>{props.children}</Box>
+				<Box sx={{ minHeight: '100vh', width: '100%', display: 'grid', placeContent: 'center' }}>{props.children}</Box>
 			)}
 		</Box>
 	)

@@ -1,4 +1,4 @@
-import { Auth } from '../types'
+import { Auth, SignUpDtoFromForm } from '../types'
 import { SignInDto, SignUpDto } from '../types'
 import * as React from 'react'
 import * as services from '../services'
@@ -7,9 +7,9 @@ import { useRouter } from 'next/router'
 interface AuthContextType {
 	auth: Auth | null
 	loading: boolean
-	signIn: (credentials: SignInDto) => void
-	signUp: (credentials: SignUpDto) => void
-	signWithProvider: (provider: 'google') => void
+	signIn: (credentials: SignInDto) => Promise<void>
+	signUp: (credentials: SignUpDtoFromForm) => Promise<void>
+	signWithProvider: (provider: 'google') => Promise<void>
 	signOut: () => void
 }
 
@@ -60,10 +60,9 @@ export default function AuthProvider(props: Props) {
 		}
 	}
 
-	const signUp = async (credentials: SignUpDto) => {
+	const signUp = async (credentials: SignUpDtoFromForm) => {
 		try {
 			setLoading(true)
-			console.log(credentials)
 			const user = await services.signUp(credentials)
 			setAuth(user)
 		} catch (error) {

@@ -9,17 +9,16 @@ import List from '@mui/material/List'
 import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
-import Badge from '@mui/material/Badge'
 import Container from '@mui/material/Container'
-import Grid from '@mui/material/Grid'
-import Paper from '@mui/material/Paper'
-import Link from '@mui/material/Link'
 import MenuIcon from '@mui/icons-material/Menu'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
-import NotificationsIcon from '@mui/icons-material/Notifications'
 import SidebarItems from './SidebarItems'
 import { RFC } from '../../types'
 import Copyright from './Copyright'
+import useAuth from '../../hooks/useAuth'
+import { Avatar, Menu, MenuItem, Stack, Tooltip } from '@mui/material'
+import BrandName from '../misc/BrandName'
+import ThemeButton from './ThemeButton'
 
 const drawerWidth: number = 240
 
@@ -72,10 +71,26 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: prop => prop !== 'open' })
 const mdTheme = createTheme()
 
 export default function Dashboard(props: RFC) {
+	const { auth, signOut } = useAuth()
+	const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null)
+
+	const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+		setAnchorElUser(event.currentTarget)
+	}
+
+	const handleCloseUserMenu = () => {
+		setAnchorElUser(null)
+	}
+
+	const handleLogout = () => {
+		signOut()
+	}
 	const [open, setOpen] = React.useState(true)
 	const toggleDrawer = () => {
 		setOpen(!open)
 	}
+
+	if (!auth) return null
 
 	return (
 		<ThemeProvider theme={mdTheme}>
@@ -99,14 +114,43 @@ export default function Dashboard(props: RFC) {
 						>
 							<MenuIcon />
 						</IconButton>
-						<Typography component='h1' variant='h6' color='inherit' noWrap sx={{ flexGrow: 1 }}>
-							Dashboard
-						</Typography>
-						<IconButton color='inherit'>
-							<Badge badgeContent={4} color='secondary'>
-								<NotificationsIcon />
-							</Badge>
-						</IconButton>
+						<Stack direction='row' sx={{ width: '100%', py: 1 }} justifyContent='space-between' alignItems='center'>
+							<BrandName />
+							<Box sx={{ flexGrow: 0 }}>
+								<ThemeButton sx={{ mr: 2 }} />
+								<Tooltip title={auth.email}>
+									<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+										<Avatar sx={{ bgcolor: 'primary.main', color: 'white', border: `2px solid white` }}>
+											{auth.email?.split('')[0].toLocaleUpperCase()}
+										</Avatar>
+									</IconButton>
+								</Tooltip>
+								<Menu
+									sx={{ mt: '45px' }}
+									id='menu-appbar'
+									anchorEl={anchorElUser}
+									anchorOrigin={{
+										vertical: 'top',
+										horizontal: 'right',
+									}}
+									keepMounted
+									transformOrigin={{
+										vertical: 'top',
+										horizontal: 'right',
+									}}
+									open={Boolean(anchorElUser)}
+									onClose={handleCloseUserMenu}
+								>
+									<MenuItem>
+										<Typography textAlign='center'>{auth.email}</Typography>
+									</MenuItem>
+									<Divider />
+									<MenuItem onClick={handleLogout}>
+										<Typography textAlign='center'>Cerrar sesión</Typography>
+									</MenuItem>
+								</Menu>
+							</Box>
+						</Stack>
 					</Toolbar>
 				</AppBar>
 				<Drawer variant='permanent' open={open}>

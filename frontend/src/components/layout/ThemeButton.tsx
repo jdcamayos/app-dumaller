@@ -5,7 +5,7 @@ import Brightness4Icon from '@mui/icons-material/Brightness4'
 import Brightness7Icon from '@mui/icons-material/Brightness7'
 import IconButton from '@mui/material/IconButton'
 
-export default function ThemeButton() {
+export default function ThemeButton(props: any) {
 	const {
 		palette: { mode },
 	} = useTheme()
@@ -13,7 +13,7 @@ export default function ThemeButton() {
 	const { toggleColorMode } = React.useContext(ColorModeContext)
 
 	return (
-		<IconButton color='inherit' aria-label='theme-mode' onClick={toggleColorMode}>
+		<IconButton color='inherit' aria-label='theme-mode' onClick={toggleColorMode} {...props}>
 			{mode === 'dark' ? <Brightness4Icon /> : <Brightness7Icon />}
 		</IconButton>
 	)

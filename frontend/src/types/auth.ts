@@ -7,6 +7,13 @@ export interface SignUpDto {
 	password: string
 }
 
+export interface SignUpDtoFromForm extends SignUpDto {
+	surname: string
+	name: string
+	phone: string
+	role: string
+}
+
 export interface SignInDto {
 	email: string
 	password: string
