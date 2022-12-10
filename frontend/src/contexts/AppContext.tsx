@@ -53,7 +53,7 @@ export default function AppProvider(props: RFC) {
 		if (!!auth && !!state.user && auth.uid !== state.user.id) {
 			getUser(auth.uid)
 		}
-	}, [auth])
+	}, [auth, state.user])
 
 	const getUser = async (userId: User['id']) => {
 		try {

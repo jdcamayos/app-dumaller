@@ -50,8 +50,8 @@ export default function SearchProducts() {
     <Paper sx={{ p: 2 }}>
       <Grid container spacing={2} maxWidth='xl'>
         {products.map(product => (
-          <Grid item xs={12} sm={6} md={6} lg={4} sx={{ display: 'flex', justifyContent: 'center', }}>
-            <ProductCard key={product.id} product={product} />
+          <Grid key={product.id} item xs={12} sm={6} md={6} lg={4} sx={{ display: 'flex', justifyContent: 'center', }}>
+            <ProductCard product={product} />
           </Grid>
         ))}
       </Grid>
